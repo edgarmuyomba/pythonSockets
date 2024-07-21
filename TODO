@@ -1,14 +1,10 @@
 ### Beginner Projects
 
-1. **Echo Server**:
-   - Create a server that echoes back any message it receives from a client.
-   - Add simple logging to record client connections and messages.
-
-2. **File Transfer Application**:
+1. **File Transfer Application**:
    - Implement a simple client-server application to transfer files.
    - Add progress indicators and basic error handling.
 
-3. **Chat Room**:
+2. **Chat Room**:
    - Extend your current chat application to support chat rooms.
    - Allow clients to join specific rooms and only receive messages from those rooms.
 
