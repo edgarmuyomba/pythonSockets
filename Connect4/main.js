@@ -18,12 +18,20 @@ function initGame(websocket) {
       const event = { type: "init" };
       if (params.has("join")) {
         event.join = params.get("join");
+      } else if (params.has("watch")) {
+        event.watch = params.get("watch");
       }
       websocket.send(JSON.stringify(event));
     });
   }
 
 function sendMoves(board, websocket) {
+
+    const params = new URLSearchParams(window.location.search);
+    if (params.has("watch")) {
+        return;
+    }
+
     board.addEventListener("click", ({ target }) => {
         const column = target.dataset.column;
 
@@ -46,9 +54,11 @@ function showMessage(message) {
 function receiveMoves(board, websocket) {
     websocket.addEventListener("message", ({ data }) => {
         const event = JSON.parse(data);
+        console.log(event);
         switch (event.type) {
             case "init":
                 document.querySelector(".join").href = "?join=" + event.join;
+                document.querySelector(".watch").href = "?watch=" + event.watch;
                 break;
             case "play":
                 // Update the UI with the move.

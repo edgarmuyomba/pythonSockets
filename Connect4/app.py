@@ -7,6 +7,8 @@ from connect4 import PLAYER1, PLAYER2, Connect4
 
 JOIN = {}
 
+WATCH = {}
+
 async def start(websocket):
     game = Connect4()
     connected = {websocket}
@@ -14,10 +16,14 @@ async def start(websocket):
     join_key = secrets.token_urlsafe(12)
     JOIN[join_key] = game, connected
 
+    watch_key = secrets.token_urlsafe(12)
+    WATCH[watch_key] = game, connected
+
     try: 
         event = {
             "type": "init",
-            "join": join_key
+            "join": join_key,
+            "watch": watch_key
         }
         await websocket.send(json.dumps(event))
 
@@ -25,6 +31,7 @@ async def start(websocket):
     
     finally:
         del JOIN[join_key]
+        del WATCH[watch_key]
 
 async def error(websocket, message):
     event = {
@@ -46,6 +53,20 @@ async def join(websocket, join_key):
     finally:
         connected.remove(websocket)
 
+async def watch(websocket, watch_key):
+    try:
+        game, connected = WATCH[watch_key] 
+    except KeyError:
+        await error(websocket, "Game not found")
+        return 
+
+    connected.add(websocket)
+    try: 
+        await websocket.wait_closed()
+    finally:
+        connected.remove(websocket)
+    
+
 async def handler(websocket):
     message = await websocket.recv()
     event = json.loads(message)
@@ -53,6 +74,8 @@ async def handler(websocket):
 
     if "join" in event:
         await join(websocket, event["join"])
+    elif "watch" in event:
+        await watch(websocket, event["watch"])
     else:
         await start(websocket)
 
@@ -67,20 +90,17 @@ async def play(websocket, game, player, connected):
                 for connection in connected:
                     await error(connection, str(e))
             else:
-                isPlayer1 = not isPlayer1
-                for connection in connected:
-                    await connection.send(json.dumps({
+                websockets.broadcast(connected, json.dumps({
                         "type": "play",
                         "player": player,
                         "column": event['column'],
                         "row": row
                     }))
 
-                if game.last_player_won:
-                    for connection in connected:
-                        await connection.send(json.dumps({
+                if game.winner != None:
+                    websockets.broadcast(connected, json.dumps({
                             "type": "win",
-                            "player": player
+                            "player": game.winner
                         }))
 
 async def main():
