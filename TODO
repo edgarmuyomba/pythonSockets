@@ -1,10 +1,6 @@
 ### Beginner Projects
 
-1. **File Transfer Application**:
-   - Implement a simple client-server application to transfer files.
-   - Add progress indicators and basic error handling.
-
-2. **Chat Room**:
+1. **Chat Room**:
    - Extend your current chat application to support chat rooms.
    - Allow clients to join specific rooms and only receive messages from those rooms.
 
