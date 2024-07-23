@@ -8,27 +8,64 @@
 :root {
     font-size: calc(0.8vh + 0.8vw);
     --grey: rgb(78, 78, 78);
-    --blue: rgb(0, 39, 90);
+    --blue: rgb(17, 75, 151);
     --lightgray: rgb(230, 230, 230);
 }
 
 body {
     background-color: whitesmoke;
     padding: 1rem 10rem;
-    display: flex;
+    display: grid;
+    grid-template-rows: 10% 90%;
+    grid-template-columns: 20% 55%;
     justify-content: center;
     gap: 0.5rem;
     height: 100vh;
     width: 100vw;
 }
 
+div.bookface {
+    grid-area: 1 / 1 / 2 / 3;
+    background-color: var(--blue);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: end;
+    padding: 0 1.5rem;
+    border-radius: 3px;
+}
+
+.bookface p.name {
+    transform: rotateY(180deg);
+    font-weight: bold;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.author {
+    display: flex;
+    align-items: center;
+    font-size: 0.7rem;
+}
+
+.author svg {
+    height: 25px;
+    width: 25px;
+    fill: white;
+}
+
+.author a {
+    color: white;
+    text-decoration: none;
+}
+
 .users {
-    width: 20%;
+    width: 100%;
     height: 100%;
     background-color: rgb(240, 240, 240);
     border: 1px solid lightgrey;
-    /* padding: 3rem 0.5rem; */
     border-radius: 5px 0 0 5px;
+    grid-area: 2 / 1 / 3 / 2;
 }
 
 .header {
@@ -86,12 +123,13 @@ span.active {
 }
 
 .messages {
-    width: 55%;
+    width: 100%;
     height: 100%;
     background-color: rgb(240, 240, 240);
     border-radius: 0 5px 5px 0;
     border: 1px solid lightgray;
     padding: 0.5rem;
+    grid-area: 2 / 2 / 3 / 3;
 }
 
 .messages .header {
@@ -155,7 +193,7 @@ div.type {
 .type input {
     height: 90%;
     width: 100%;
-    border-radius: 5px;
+    border-radius: 0;
     padding: 0 0.5rem;
     font-size: 0.9rem;
     border: 1px solid lightgray;
