@@ -2,6 +2,7 @@ import websockets
 import asyncio 
 import json
 from uuid import uuid4
+import utils
 
 clients = {}
 
@@ -25,23 +26,22 @@ async def connect(websocket, data):
     if 'username' in data:
         username = data['username']
         clients[username] = websocket
-        current_users = {}
-        with open('db/users.json', 'r') as users:
-            current_users = json.load(users)
-            if username not in current_users:
-                current_users.append(username)
-        with open('db/users.json', 'w') as users:
-            users.write(json.dumps(current_users))
+        utils.add_user(username)
         payload = {
             "code": 200,
             "username": username 
         }
         await websocket.send(json.dumps(payload))
 
+        users = utils.get_users()
+        connected = [clients[user] for user in users]
+        websockets.broadcast(connected, json.loads(users))
+
         try:
             await websocket.wait_closed()
         finally:
             del clients[username]
+            utils.remove_user(username)
     else:
         await error(websocket, "Please provide a username to register!")
 
