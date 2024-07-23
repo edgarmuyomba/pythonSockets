@@ -15,7 +15,7 @@ async def handler(websocket):
         if payload['operation'] == 'connect':
             await connect(websocket, payload)
         elif payload['operation'] == 'send':
-            pass 
+            await send(websocket, payload)
         elif payload['operation'] == 'join':
             pass 
         elif payload['operation'] == 'leave':
@@ -23,26 +23,39 @@ async def handler(websocket):
 
 async def connect(websocket, data):
     if 'username' in data:
-        id = str(uuid4())
         username = data['username']
-        clients[id] = websocket
+        clients[username] = websocket
         current_users = {}
         with open('db/users.json', 'r') as users:
             current_users = json.load(users)
-            current_users[id] = username
+            if username not in current_users:
+                current_users.append(username)
         with open('db/users.json', 'w') as users:
             users.write(json.dumps(current_users))
         payload = {
             "code": 200,
-            "id": id,
             "username": username 
         }
         await websocket.send(json.dumps(payload))
+
+        try:
+            await websocket.wait_closed()
+        finally:
+            del clients[username]
     else:
         await error(websocket, "Please provide a username to register!")
 
-def send(websocket, data):
-    pass 
+async def send(websocket, data):
+    if 'recipient' in data:
+        recipient = clients[data['recipient']]
+        payload = {
+            "code": 201,
+            "sender": data['sender'],
+            "message": data['message']
+        }
+        await recipient.send(json.dumps(payload))
+    else:
+        await error(websocket, "Please provide a recipient for the message!")
 
 def join(websocket, data):
     pass 

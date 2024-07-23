@@ -7,15 +7,31 @@ async def connect():
     async with websockets.connect(uri) as client:
         payload = {
             'operation': 'connect',
-            'username': 'Edgar again'
+            'username': 'edgarmatthew'
         }
 
         await client.send(json.dumps(payload))
 
         response = await client.recv()
         data = json.loads(response)
-        print(data)
-        await client.close()
+
+        if data['code'] == 200:
+            print("Logged in!")
+
+            while True:
+                recipient = input("Recipient: ")
+                message = input("Message: ")
+                payload = {
+                    'operation': 'send',
+                    'recipient': recipient,
+                    'sender': 'edgarmatthew',
+                    'message': message 
+                }
+                await client.send(json.dumps(payload))
+        elif data['code'] == 400:
+            print(data['message'])
+        elif data['code'] == 201:
+            print(f"{data['sender']} says {data['message']}")
 
 if __name__=="__main__":
     asyncio.run(connect())
