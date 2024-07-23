@@ -3,6 +3,7 @@ import asyncio
 import json
 from uuid import uuid4
 import utils
+from datetime import datetime
 import time
 
 clients = {}
@@ -34,11 +35,11 @@ async def connect(websocket, data):
         }
         await websocket.send(json.dumps(payload))
 
-        users = utils.get_users()
-        connected = [clients[user] for user in users]
-        websockets.broadcast(connected, json.loads(users))
+        # users = utils.get_users()
+        # connected = [clients[user] for user in users]
+        # websockets.broadcast(connected, json.dumps(users))
 
-        await timer()
+        await timer(websocket)
 
         try:
             await websocket.wait_closed()
@@ -66,16 +67,25 @@ def join(websocket, data):
 def leave(websocket, data):
     pass 
 
-async def timer():
-    payload = {
-        "code": 201,
-        "sender": "Server",
-        "message": time.time()
-    }
+async def timer(websocket):
 
-    users = utils.get_users()
-    connected = [clients[user] for user in users]
-    websockets.broadcast(connected, json.loads(payload))
+    while True:
+
+        current_time = datetime.now().strftime("%H:%M:%S")
+
+        payload = {
+            "code": 205,
+            "sender": "Server",
+            "message": f"The time is {current_time}",
+            "time": current_time
+        }
+
+        users = utils.get_users()
+        connected = [clients[user] for user in users]
+        websockets.broadcast(connected, json.dumps(payload))
+        # await websocket.send(json.dumps(payload))
+
+        await asyncio.sleep(2)
 
 async def error(websocket, message):
     payload = {

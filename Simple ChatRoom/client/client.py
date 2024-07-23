@@ -12,26 +12,29 @@ async def connect():
 
         await client.send(json.dumps(payload))
 
-        response = await client.recv()
-        data = json.loads(response)
+        while True:
 
-        if data['code'] == 200:
-            print("Logged in!")
+            response = await client.recv()
+            data = json.loads(response)
 
-            while True:
-                recipient = input("Recipient: ")
-                message = input("Message: ")
-                payload = {
-                    'operation': 'send',
-                    'recipient': recipient,
-                    'sender': 'edgarmatthew',
-                    'message': message 
-                }
-                await client.send(json.dumps(payload))
-        elif data['code'] == 400:
-            print(data['message'])
-        elif data['code'] == 201:
-            print(f"{data['sender']} says {data['message']}")
+            # if data['code'] == 200:
+            #     print("Logged in!")
+
+            #     while True:
+            #         recipient = input("Recipient: ")
+            #         message = input("Message: ")
+            #         payload = {
+            #             'operation': 'send',
+            #             'recipient': recipient,
+            #             'sender': 'edgarmatthew',
+            #             'message': message 
+            #         }
+            #         await client.send(json.dumps(payload))
+            # elif data['code'] == 400:
+            #     print(data['message'])
+            # elif data['code'] == 201:
+            #     print(f"{data['sender']} says {data['message']}")
+            print(data)
 
 if __name__=="__main__":
     asyncio.run(connect())
