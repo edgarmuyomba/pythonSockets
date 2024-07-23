@@ -1,0 +1,166 @@
+* {
+    margin: 0;
+    border: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+:root {
+    font-size: calc(0.8vh + 0.8vw);
+    --grey: rgb(78, 78, 78);
+    --blue: rgb(0, 39, 90);
+    --lightgray: rgb(230, 230, 230);
+}
+
+body {
+    background-color: whitesmoke;
+    padding: 1rem 10rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    height: 100vh;
+    width: 100vw;
+}
+
+.users {
+    width: 20%;
+    height: 100%;
+    background-color: rgb(240, 240, 240);
+    border: 1px solid lightgrey;
+    /* padding: 3rem 0.5rem; */
+    border-radius: 5px 0 0 5px;
+}
+
+.header {
+    padding: 0 1rem;
+    width: 100%;
+    height: 10%;
+    background-color: var(--lightgray);
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    gap: 0.2rem;
+    margin-bottom: 1rem;
+}
+
+p.title {
+    color: var(--blue);
+    font-weight: bold;
+}
+
+p.subtitle {
+    font-weight: lighter;
+    font-size: 0.6rem;
+    color: grey;
+}
+
+div.user {
+    padding: 0 1rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+div.user:hover {
+    background-color: rgb(230, 230, 230);
+}
+
+.user>svg {
+    height: 1.2rem;
+    fill: var(--grey);
+    margin-right: 0.5rem;
+}
+
+.user>p.name {
+    font-size: 0.7rem;
+}
+
+span.active {
+    height: 0.3rem;
+    width: 0.3rem;
+    border-radius: 50px;
+    background-color: green;
+    margin-left: auto;
+}
+
+.messages {
+    width: 55%;
+    height: 100%;
+    background-color: rgb(240, 240, 240);
+    border-radius: 0 5px 5px 0;
+    border: 1px solid lightgray;
+    padding: 0.5rem;
+}
+
+.messages .header {
+    background-color: transparent;
+    margin-bottom: 0;
+}
+
+.container {
+    background-color: whitesmoke;
+    height: 85%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+    overflow-y: scroll;
+    margin-bottom: 0.5rem;
+}
+
+div.message {
+    background-color: lightgrey;
+    font-size: 0.8rem;
+    padding: 0.4rem 0.7rem;
+    max-width: 80%;
+    margin-bottom: 0.5rem;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem
+}
+
+.message p.name {
+    font-size: 0.6rem;
+    color: var(--blue)
+}
+
+.message p.time {
+    font-size: 0.5rem;
+    color: var(--grey);
+}
+
+div.recipient {
+    margin-left: auto;
+    border-top-right-radius: 0;
+}
+
+div.sender {
+    margin-right: auto;
+    border-top-left-radius: 0;
+    border: 1px solid lightgray;
+    background-color: transparent;
+}
+
+.sender .message {
+    font-family: 'Consolas', Arial, Helvetica, sans-serif;
+}
+
+div.type {
+    height: 4%;
+}
+
+.type input {
+    height: 90%;
+    width: 100%;
+    border-radius: 5px;
+    padding: 0 0.5rem;
+    font-size: 0.9rem;
+    border: 1px solid lightgray;
+}
+
+.type input:focus {
+    outline: none;
+}

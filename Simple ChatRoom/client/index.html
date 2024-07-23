@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <link rel="stylesheet" href="./styles.css">
+    <script src="./script.js" type="module" defer></script>
+</head>
+
+<body>
+    <div class="users">
+        <div class="header">
+            <p class="title">Users</p>
+            <p class="subtitle">Currently Online</p>
+        </div>
+        <div class="user">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <title>account</title>
+                <path
+                    d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" />
+            </svg>
+            <p class="name">User 1 </p><span class="active"></span>
+        </div>
+        <div class="user">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <title>account</title>
+                <path
+                    d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" />
+            </svg>
+            <p class="name">User 2 </p><span class="active"></span>
+        </div>
+        <div class="user">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <title>account</title>
+                <path
+                    d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" />
+            </svg>
+            <p class="name">User 3 </p><span class="active"></span>
+        </div>
+    </div>
+    <div class="messages">
+        <div class="header">
+            <p class="title">User 1</p>
+            <p class="subtitle">Current Chat</p>
+        </div>
+        <div class="container">
+            <div class="message sender">
+                <p class="name">Sender</p>
+                <p class="message">Hello from sender</p>
+                <p class="time">8:05 pm</p>
+            </div>
+            <div class="message recipient">
+                <p class="message">Hello to sender. Hello to sender. </p>
+                <p class="time">8:05 pm</p>
+            </div>
+        </div>
+        <div class="type">
+            <input type="text" placeholder="Type here...">
+        </div>
+    </div>
+</body>
+
+</html>

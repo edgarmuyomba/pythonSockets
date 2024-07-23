@@ -3,6 +3,7 @@ import asyncio
 import json
 from uuid import uuid4
 import utils
+import time
 
 clients = {}
 
@@ -37,6 +38,8 @@ async def connect(websocket, data):
         connected = [clients[user] for user in users]
         websockets.broadcast(connected, json.loads(users))
 
+        await timer()
+
         try:
             await websocket.wait_closed()
         finally:
@@ -62,6 +65,17 @@ def join(websocket, data):
 
 def leave(websocket, data):
     pass 
+
+async def timer():
+    payload = {
+        "code": 201,
+        "sender": "Server",
+        "message": time.time()
+    }
+
+    users = utils.get_users()
+    connected = [clients[user] for user in users]
+    websockets.broadcast(connected, json.loads(payload))
 
 async def error(websocket, message):
     payload = {
