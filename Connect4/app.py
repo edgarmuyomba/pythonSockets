@@ -87,8 +87,8 @@ async def play(websocket, game, player, connected):
             try:
                 row = game.play(player, event['column'])
             except RuntimeError as e:
-                for connection in connected:
-                    await error(connection, str(e))
+                await error(websocket, str(e))
+                continue
             else:
                 websockets.broadcast(connected, json.dumps({
                         "type": "play",
@@ -97,7 +97,7 @@ async def play(websocket, game, player, connected):
                         "row": row
                     }))
 
-                if game.winner != None:
+                if game.winner is not None:
                     websockets.broadcast(connected, json.dumps({
                             "type": "win",
                             "player": game.winner
