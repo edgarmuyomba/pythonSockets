@@ -35,9 +35,13 @@ async def connect(websocket, data):
         }
         await websocket.send(json.dumps(payload))
 
-        # users = utils.get_users()
-        # connected = [clients[user] for user in users]
-        # websockets.broadcast(connected, json.dumps(users))
+        users = utils.get_users()
+        connected = [clients[user] for user in users]
+        users_payload = {
+            "code": 202,
+            "data": users
+        }
+        websockets.broadcast(connected, json.dumps(users_payload))
 
         await timer(websocket)
 
