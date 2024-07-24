@@ -25,25 +25,28 @@ async def handler(websocket):
             pass
 
 async def connect(websocket, data):
-    if 'username' in data:
+    if 'username' in data and data['username'] != "":
         username = data['username']
         clients[username] = websocket
-        utils.add_user(username)
-        payload = {
-            "code": 200,
-            "username": username 
-        }
-        await websocket.send(json.dumps(payload))
+        created = utils.add_user(username)
+        if created:
+            payload = {
+                "code": 200,
+                "username": username 
+            }
+            await websocket.send(json.dumps(payload))
 
-        users = utils.get_users()
-        connected = [clients[user] for user in users]
-        users_payload = {
-            "code": 202,
-            "data": users
-        }
-        websockets.broadcast(connected, json.dumps(users_payload))
+            users = utils.get_users()
+            connected = [clients[user] for user in users]
+            users_payload = {
+                "code": 202,
+                "data": users
+            }
+            websockets.broadcast(connected, json.dumps(users_payload))
 
-        await timer(websocket)
+            await timer(websocket)
+        else:
+            await error(websocket, "This username is already taken!")
 
         try:
             await websocket.wait_closed()

@@ -10,6 +10,10 @@
 </head>
 
 <body>
+    <div class="feedback" style="display: none;">
+        <span class="status"></span>
+        <p class="text">This is a message</p>
+    </div>
     <div class="bookface">
         <p class="name">the facebook</p>
         <div class="author">
@@ -35,7 +39,18 @@
             <p class="name">User 1 </p><span class="active"></span>
         </div>
     </div>
-    <div class="messages">
+    <div class="welcome">
+        <div class="title">
+            <p class="text">Welcome to </p>
+            <span class="name">the facebook</span>
+        </div>
+        <p class="subtitle">Please enter your username ( no spaces )</p>
+        <form action="" id="username_form">
+            <input type="text" id="username" pattern="^\S+$" placeholder="username">
+            <input type="submit" value="register">
+        </form>
+    </div>
+    <div class="messages" style="display: none;">
         <div class="header">
             <p class="title">User 1</p>
             <p class="subtitle">Current Chat</p>

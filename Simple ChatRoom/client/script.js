@@ -1,8 +1,63 @@
 window.addEventListener("DOMContentLoaded", () => {
     const websocket = new WebSocket("ws://localhost:8001/");
-    initChat(websocket);
-    receiveMessages(websocket);
+
+    getUsername(websocket);
+    // register(websocket);
+    // initChat(websocket);
+    // receiveMessages(websocket);
 })
+
+var username = "";
+var recipient = "";
+
+function getUsername(websocket) {
+    const username_form = document.querySelector("form#username_form");
+    username_form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        var username_field = username_form.querySelector("input#username");
+        username = username_field.value;
+        username_field.value = "";
+    })
+}
+
+function register(websocket) {
+    // try to register! successful, change screen otherwise remain!
+    websocket.addEventListener("open", () => {
+        const data = {
+            operation: "connect",
+            username: username,
+        }
+
+        websocket.send(JSON.stringify(data));
+    });
+
+    websocket.addEventListener("message", ({ data }) => {
+        const response = JSON.parse(data);
+
+        switch (response.code) {
+            case 200:
+                // success
+                const welcomeScreen = document.querySelector("div.welcome");
+                const messageScreen = document.querySelector("div.messages");
+
+                welcomeScreen.style.display = "none";
+                messageScreen.style.display = "block";
+                break;
+            case 400:
+                // failed
+                alert(response.message);
+                break;
+        }
+    });
+
+    websocket.addEventListener("error", (error) => {
+        console.error("WebSocket error:", error);
+    });
+
+    websocket.addEventListener("close", () => {
+        console.log("WebSocket connection closed");
+    });
+}
 
 function initChat(websocket) {
     websocket.addEventListener("open", () => {
@@ -21,7 +76,7 @@ function receiveMessages(websocket) {
 
         switch (event.code) {
             case 201:
-                alert("Connection Successful!")
+                alert("Connection Successful!");
                 break;
             case 202:
                 // add an online user

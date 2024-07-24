@@ -24,6 +24,32 @@ body {
     width: 100vw;
 }
 
+div.feedback {
+    grid-area: 1 / 1 / 2 / 3;
+    border: 1px solid lightgray;
+    width: 70vw;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0 1rem;
+    border-radius: 5px;
+    background-color: var(--lightgray);
+    position: absolute;
+}
+
+.feedback p.text {
+    font-size: 0.9rem;
+    color: var(--grey);
+}
+
+.feedback span.status {
+    height: 12px;
+    width: 12px;
+    background-color: tomato;
+    border-radius: 50px;
+}
+
 div.bookface {
     grid-area: 1 / 1 / 2 / 3;
     background-color: var(--blue);
@@ -81,12 +107,12 @@ div.bookface {
     margin-bottom: 1rem;
 }
 
-p.title {
+.header p.title {
     color: var(--blue);
     font-weight: bold;
 }
 
-p.subtitle {
+.header p.subtitle {
     font-weight: lighter;
     font-size: 0.6rem;
     color: grey;
@@ -122,7 +148,7 @@ span.active {
     margin-left: auto;
 }
 
-.messages {
+.messages, .welcome {
     width: 100%;
     height: 100%;
     background-color: rgb(240, 240, 240);
@@ -130,6 +156,54 @@ span.active {
     border: 1px solid lightgray;
     padding: 0.5rem;
     grid-area: 2 / 2 / 3 / 3;
+}
+
+.welcome, .welcome > form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.welcome div.title {
+    font-weight: bold;
+    font-size: 1.2rem;
+    display: flex;
+    gap: 0.2rem
+}
+
+div.title span.name {
+    transform: rotateY(180deg);
+    color: var(--blue);
+}
+
+.welcome p.subtitle {
+    font-size: 0.7rem;
+    color: var(--grey);
+}
+
+.welcome form {
+    margin-top: 0.5rem;
+    flex-direction: row;
+    gap: 0.3rem
+}
+
+.welcome input[type="text"] {
+    width: 10rem;
+    height: 1.3rem;
+    padding: 0 0.5rem;
+    font-size: 0.8rem;
+}
+
+.welcome input[type="text"]:focus {
+    outline: none;
+}
+
+.welcome input[type="submit"] {
+    background-color: var(--blue);
+    height: 1.3rem;
+    padding: 0 0.5rem;
+    color: whitesmoke;
 }
 
 .messages .header {

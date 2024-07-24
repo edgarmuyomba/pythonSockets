@@ -8,6 +8,9 @@ def add_user(username):
         current_users.append(username)
         with open('db/users.json', 'w') as users:
             users.write(json.dumps(current_users))
+            return True
+    else:
+        return False
 
 def remove_user(username):
     current_users = []
