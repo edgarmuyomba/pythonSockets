@@ -4,7 +4,6 @@ import json
 from uuid import uuid4
 import utils
 from datetime import datetime
-import time
 
 clients = {}
 
@@ -27,14 +26,16 @@ async def handler(websocket):
 async def connect(websocket, data):
     if 'username' in data and data['username'] != "":
         username = data['username']
-        clients[username] = websocket
         created = utils.add_user(username)
         if created:
+            clients[username] = websocket
             payload = {
                 "code": 200,
                 "username": username 
             }
             await websocket.send(json.dumps(payload))
+
+            # await asyncio.sleep(1)
 
             users = utils.get_users()
             connected = [clients[user] for user in users]
@@ -44,15 +45,16 @@ async def connect(websocket, data):
             }
             websockets.broadcast(connected, json.dumps(users_payload))
 
+
             await timer(websocket)
         else:
             await error(websocket, "This username is already taken!")
 
-        try:
-            await websocket.wait_closed()
-        finally:
-            del clients[username]
-            utils.remove_user(username)
+        # try:
+        #     await websocket.wait_closed()
+        # finally:
+        #     del clients[username]
+        #     utils.remove_user(username)
     else:
         await error(websocket, "Please provide a username to register!")
 

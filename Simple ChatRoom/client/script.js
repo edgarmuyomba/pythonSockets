@@ -1,80 +1,59 @@
 window.addEventListener("DOMContentLoaded", () => {
     const websocket = new WebSocket("ws://localhost:8001/");
 
-    getUsername(websocket);
-    // register(websocket);
-    // initChat(websocket);
-    // receiveMessages(websocket);
+    websocket.addEventListener("open", () => {
+        getUsername(websocket);
+    })
 })
-
-var username = "";
-var recipient = "";
 
 function getUsername(websocket) {
     const username_form = document.querySelector("form#username_form");
+    var username = "";
     username_form.addEventListener("submit", (event) => {
         event.preventDefault();
         var username_field = username_form.querySelector("input#username");
         username = username_field.value;
         username_field.value = "";
-    })
+        registerUser(websocket, username);
+    });
 }
 
-function register(websocket) {
-    // try to register! successful, change screen otherwise remain!
-    websocket.addEventListener("open", () => {
-        const data = {
-            operation: "connect",
-            username: username,
-        }
+function registerUser(websocket, username) {
+    // get the username and attempt to register
 
-        websocket.send(JSON.stringify(data));
-    });
+    const data = {
+        operation: "connect",
+        username: username,
+    }
 
-    websocket.addEventListener("message", ({ data }) => {
+    websocket.send(JSON.stringify(data));
+
+    websocket.addEventListener("message", function onMessage({ data }) {
         const response = JSON.parse(data);
 
-        switch (response.code) {
-            case 200:
-                // success
-                const welcomeScreen = document.querySelector("div.welcome");
-                const messageScreen = document.querySelector("div.messages");
+        if (response.code == 200) {
+            // success
+            const welcomeScreen = document.querySelector("div.welcome");
+            const messageScreen = document.querySelector("div.messages");
 
-                welcomeScreen.style.display = "none";
-                messageScreen.style.display = "block";
-                break;
-            case 400:
-                // failed
-                alert(response.message);
-                break;
+            welcomeScreen.style.display = "none";
+            messageScreen.style.display = "block";
+            websocket.removeEventListener("message", onMessage);
+            receiveMessages(websocket);
+        } else {
+            // failed
+            alert(response.message);
         }
-    });
-
-    websocket.addEventListener("error", (error) => {
-        console.error("WebSocket error:", error);
-    });
-
-    websocket.addEventListener("close", () => {
-        console.log("WebSocket connection closed");
-    });
-}
-
-function initChat(websocket) {
-    websocket.addEventListener("open", () => {
-        const data = {
-            operation: "connect",
-            username: "edgarmatthew",
-        }
-
-        websocket.send(JSON.stringify(data));
     })
+
 }
 
 function receiveMessages(websocket) {
     websocket.addEventListener("message", ({ data }) => {
-        const event = JSON.parse(data);
 
-        switch (event.code) {
+        const response = JSON.parse(data);
+
+        switch (response.code) {
             case 201:
                 alert("Connection Successful!");
                 break;
@@ -88,7 +67,7 @@ function receiveMessages(websocket) {
                     </div>
                 `;
 
-                const online_users = event.data;
+                const online_users = response.data;
 
                 for (const user of online_users) {
                     var newUser = document.createElement("div");
@@ -115,17 +94,17 @@ function receiveMessages(websocket) {
 
                 var name = document.createElement("p");
                 name.classList.add("name")
-                name.textContent = event.sender;
+                name.textContent = response.sender;
                 newMessage.appendChild(name);
 
                 var message = document.createElement("p");
                 message.classList.add("message")
-                message.textContent = event.message;
+                message.textContent = response.message;
                 newMessage.appendChild(message);
 
                 var time = document.createElement("p");
                 time.classList.add("time")
-                time.textContent = event.time;
+                time.textContent = response.time;
                 newMessage.appendChild(time);
 
                 messageContainer.appendChild(newMessage);
