@@ -21,10 +21,6 @@ async def handler(websocket):
             await send(websocket, payload)
         elif payload['operation'] == 'receive':
             await receive(websocket, payload)
-        elif payload['operation'] == 'join':
-            pass
-        elif payload['operation'] == 'leave':
-            pass
 
 
 async def connect(websocket, data):
@@ -49,13 +45,6 @@ async def connect(websocket, data):
             # await timer(websocket)
         else:
             await error(websocket, "This username is already taken!")
-
-        # try:
-        #     await websocket.wait_closed()
-        #     print(f"{websocket} left the chat.")
-        # finally:
-        #     del clients[username]
-        #     utils.remove_user(username)
     else:
         await error(websocket, "Please provide a username to register!")
 
@@ -85,35 +74,10 @@ async def receive(websocket, data):
 
     await sendBroadcast(json.dumps(payload))
 
-def join(websocket, data):
-    pass
-
-
-def leave(websocket, data):
-    pass
-
 async def sendBroadcast(jsonPayload, exclude=None):
     users = utils.get_users()
     connected = [clients[user] for user in users if user != exclude]
     websockets.broadcast(connected, jsonPayload)
-
-async def timer(websocket):
-
-    while True:
-
-        current_time = datetime.now().strftime("%H:%M")
-
-        payload = {
-            "code": 205,
-            "sender": "Server",
-            "message": f"The time is {current_time}",
-            "time": current_time
-        }
-
-        await sendBroadcast(json.dumps(payload))
-
-        await asyncio.sleep(5)
-
 
 async def error(websocket, message):
     payload = {
