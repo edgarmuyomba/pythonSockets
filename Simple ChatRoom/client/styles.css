@@ -361,3 +361,110 @@ form#message {
         font-size: 1.1rem;
     }
 }
+
+@media(max-width: 767px) {
+    body {
+        grid-template-columns: 1fr;
+        grid-template-rows: 10% 3% auto;
+    }
+
+    div.bookface {
+        grid-area: 1 / 1 / 2 / 2;
+    }
+
+    .bookface p.name {
+        font-size: 2.5rem;
+    }
+
+    .author {
+        font-size: 1.5rem;
+    }
+
+    .users {
+        grid-area: 2 / 1 / 3 / 2;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+    }
+
+    .users .header {
+        display: none;
+    }
+
+    .user svg, .user p.name {
+        display: none;
+    }
+
+    span.active {
+        height: 0.7rem;
+        width: 0.7rem;
+    }
+
+    .messages, .welcome {
+        grid-area: 3 / 1 / 4 / 2
+    }
+
+    .welcome div.title {
+        font-size: 2.2rem;
+    }
+
+    .welcome p.subtitle {
+        font-size: 1.35rem;
+    }
+
+    .welcome form {
+        gap: 0.6rem
+    }
+
+    .welcome input[type="text"] {
+        width: 20rem;
+        height: 2.5rem;
+        font-size: 1.5rem;
+    }
+
+    .welcome input[type="submit"] {
+        height: 2.5rem;
+        font-size: 1.5rem;
+        padding: 0 1rem;
+    }
+
+    .header {
+        height: 7%;
+    }
+
+    .container {
+        height: 87%;
+    }
+
+    .header p.title {
+        font-size: 1.7rem;
+    }
+
+    .header p.subtitle {
+        font-size: 1.3rem;
+    }
+
+    div.message {
+        margin-bottom: 0.8rem;
+    }
+
+    .message {
+        font-size: 1.7rem;
+    }
+
+    .message p.name {
+        font-size: 1.1rem;
+    }
+
+    .message p.time {
+        font-size: 1rem;
+    }
+
+    div.type {
+        height: 6%;
+    }
+
+    .type input {
+        font-size: 1.7rem;
+    }
+}

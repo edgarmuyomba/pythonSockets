@@ -7,7 +7,7 @@ from datetime import datetime
 
 clients = {}
 
-
+ 
 async def main():
     async with websockets.serve(handler, "", 8001):
         await asyncio.Future()
@@ -49,7 +49,7 @@ async def connect(websocket, data):
             }
             await sendBroadcast(json.dumps(users_payload))
 
-            await timer(websocket)
+            # await timer(websocket)
         else:
             await error(websocket, "This username is already taken!")
 
