@@ -1,7 +1,7 @@
 import { renderSenderMessage, renderSentMessage } from "./render.js"
 
 window.addEventListener("DOMContentLoaded", () => {
-    const websocket = new WebSocket("ws://192.168.119.96:8001/");
+    const websocket = new WebSocket("ws://127.0.0.1:8001/");
 
     websocket.addEventListener("open", () => {
         getUsername(websocket);
