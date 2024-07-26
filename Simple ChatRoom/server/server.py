@@ -41,8 +41,6 @@ async def connect(websocket, data):
                 "data": users
             }
             await sendBroadcast(json.dumps(users_payload))
-
-            # await timer(websocket)
         else:
             await error(websocket, "This username is already taken!")
     else:
