@@ -53,12 +53,12 @@ async def connect(websocket, data):
         else:
             await error(websocket, "This username is already taken!")
 
-        try:
-            await websocket.wait_closed()
-            print(f"{websocket} left the chat.")
-        finally:
-            del clients[username]
-            utils.remove_user(username)
+        # try:
+        #     await websocket.wait_closed()
+        #     print(f"{websocket} left the chat.")
+        # finally:
+        #     del clients[username]
+        #     utils.remove_user(username)
     else:
         await error(websocket, "Please provide a username to register!")
 

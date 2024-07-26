@@ -1,5 +1,5 @@
 window.addEventListener("DOMContentLoaded", () => {
-    const websocket = new WebSocket("ws://localhost:8001/");
+    const websocket = new WebSocket("ws://192.168.119.96:8001/");
 
     websocket.addEventListener("open", () => {
         getUsername(websocket);
@@ -33,6 +33,8 @@ function registerUser(websocket, username) {
 
         if (response.code == 200) {
             // success
+            sessionStorage.setItem("username", username);
+
             const welcomeScreen = document.querySelector("div.welcome");
             const messageScreen = document.querySelector("div.messages");
 
@@ -117,12 +119,13 @@ function receiveMessages(websocket) {
 function sendMessages(websocket) {
     const message_form = document.querySelector("form#message");
     const message_field = message_form.querySelector("input#message");
-    message_form.addEventListener("submit", () => {
+    message_form.addEventListener("submit", (event) => {
+        event.preventDefault();
         const message = message_field.value;
         message_field.value = "";
         const data = {
             operation: "receive",
-            sender: username,
+            sender: sessionStorage.getItem("username"),
             message: message
         };
         websocket.send(JSON.stringify(data));
