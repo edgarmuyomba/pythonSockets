@@ -1,3 +1,5 @@
+import { renderSenderMessage, renderSentMessage } from "./render.js"
+
 window.addEventListener("DOMContentLoaded", () => {
     const websocket = new WebSocket("ws://192.168.119.96:8001/");
 
@@ -89,28 +91,12 @@ function receiveMessages(websocket) {
 
                 break;
             case 205:
-                const messageContainer = document.querySelector("div.container");
-
-                var newMessage = document.createElement("div");
-                newMessage.classList.add("message");
-                newMessage.classList.add("sender");
-
-                var name = document.createElement("p");
-                name.classList.add("name")
-                name.textContent = response.sender;
-                newMessage.appendChild(name);
-
-                var message = document.createElement("p");
-                message.classList.add("message")
-                message.textContent = response.message;
-                newMessage.appendChild(message);
-
-                var time = document.createElement("p");
-                time.classList.add("time")
-                time.textContent = response.time;
-                newMessage.appendChild(time);
-
-                messageContainer.appendChild(newMessage);
+                var username = sessionStorage.getItem("username");
+                if (response.sender !== username) {
+                    renderSenderMessage(response);
+                } else {
+                    renderSentMessage(response);
+                }
                 break;
         }
     })

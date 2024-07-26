@@ -7,7 +7,6 @@ from datetime import datetime
 
 clients = {}
 
- 
 async def main():
     async with websockets.serve(handler, "", 8001):
         await asyncio.Future()
@@ -39,8 +38,6 @@ async def connect(websocket, data):
                 "username": username
             }
             await websocket.send(json.dumps(payload))
-
-            # await asyncio.sleep(1)
 
             users = utils.get_users()
             users_payload = {
@@ -83,7 +80,7 @@ async def receive(websocket, data):
         "code": 205,
         "sender": sender,
         "message": message,
-        "time": datetime.now().strftime("%H:%M:%S")
+        "time": datetime.now().strftime("%H:%M")
     }
 
     await sendBroadcast(json.dumps(payload))
@@ -104,7 +101,7 @@ async def timer(websocket):
 
     while True:
 
-        current_time = datetime.now().strftime("%H:%M:%S")
+        current_time = datetime.now().strftime("%H:%M")
 
         payload = {
             "code": 205,

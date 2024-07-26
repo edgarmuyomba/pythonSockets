@@ -366,6 +366,7 @@ form#message {
     body {
         grid-template-columns: 1fr;
         grid-template-rows: 10% 3% auto;
+        padding: 0.5rem;
     }
 
     div.bookface {
@@ -384,10 +385,23 @@ form#message {
         grid-area: 2 / 1 / 3 / 2;
         display: flex;
         align-items: center;
+        gap: 0.5rem;
+        padding: 0 0.5rem;
     }
 
     .users .header {
+        height: 100%;
+        justify-content: end;
+        background-color: transparent;
+        padding: 0;
+    }
+
+    .users p.title {
         display: none;
+    }
+
+    div.user {
+        padding: 0;
     }
 
     .user svg, .user p.name {
