@@ -40,6 +40,7 @@ function registerUser(websocket, username) {
             messageScreen.style.display = "block";
             websocket.removeEventListener("message", onMessage);
             receiveMessages(websocket);
+            sendMessages(websocket);
         } else {
             // failed
             alert(response.message);
@@ -110,5 +111,20 @@ function receiveMessages(websocket) {
                 messageContainer.appendChild(newMessage);
                 break;
         }
+    })
+}
+
+function sendMessages(websocket) {
+    const message_form = document.querySelector("form#message");
+    const message_field = message_form.querySelector("input#message");
+    message_form.addEventListener("submit", () => {
+        const message = message_field.value;
+        message_field.value = "";
+        const data = {
+            operation: "receive",
+            sender: username,
+            message: message
+        };
+        websocket.send(JSON.stringify(data));
     })
 }

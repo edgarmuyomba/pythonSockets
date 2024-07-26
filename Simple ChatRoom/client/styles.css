@@ -264,6 +264,11 @@ div.type {
     height: 4%;
 }
 
+form#message {
+    height: 100%;
+    width: 100%;
+}
+
 .type input {
     height: 90%;
     width: 100%;
@@ -275,4 +280,84 @@ div.type {
 
 .type input:focus {
     outline: none;
+}
+
+@media(max-width: 1024px) {
+    body {
+        padding: 0;
+        grid-template-columns: 30% 60%;
+    }
+
+    .bookface p.name {
+        font-size: 2rem;
+    }
+
+    .author {
+        font-size: 1rem;
+    }
+
+    .author svg {
+        height: 40px;
+        width: 40px;
+    }
+
+    .header p.title {
+        font-size: 1.4rem;
+    }
+
+    .header p.subtitle {
+        font-size: 1rem;
+    }
+
+    .user > svg {
+        height: 1.5rem;
+    }
+
+    .user > p.name {
+        font-size: 1rem;
+    }
+
+    span.active {
+        height: 0.5rem;
+        width: 0.5rem;
+    }
+
+    .welcome div.title {
+        font-size: 1.7rem;
+    }
+
+    .welcome p.subtitle {
+        font-size: 1.15rem;
+    }
+
+    .welcome form {
+        gap: 0.4rem;
+    }
+
+    .welcome input[type="text"] {
+        width: 15rem;
+        height: 2rem;
+        font-size: 1rem;
+    }
+
+    .welcome input[type="submit"] {
+        height: 2rem;
+        font-size: 1rem;
+    }
+
+    .message {
+        font-size: 1.2rem;
+    }
+
+    .message p.name {
+        font-size: 0.9rem;
+    }
+
+    .message p.time {
+        font-size: 0.8rem;
+    }
+
+    .type input {
+        font-size: 1.1rem;
+    }
 }
